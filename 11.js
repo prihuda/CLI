@@ -25,7 +25,7 @@ cli
 	  });
 	  lineReader.on('line', function (url) {
 		  let filename = url.replace(/([^a-z0-9]+)/gi, '-') + '.' + options.format;
-		  doScreenCapture(url, filename);
+		  doScreenCapture(url, filename).catch(e => { console.error(e); });
 	  });
   });
  

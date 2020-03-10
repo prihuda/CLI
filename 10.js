@@ -6,10 +6,10 @@ async function doScreenCapture(url, filename) {
 		  const browser = await puppeteer.launch();
 		  const page = await browser.newPage();
 		  await page.goto(url, {waitUntil: 'domcontentloaded'});
-		  let format = '.' + filename.split('.').pop();
+		let format = filename.split('.').pop();
 		  if (format === 'pdf') {
 			  await page.pdf({
-				  path: options.output, 
+				  path: filename,
 				  format: 'A4'
 			  });
 		  }
@@ -19,7 +19,7 @@ async function doScreenCapture(url, filename) {
 				  path: filename
 			  });
 		  }
-		  
+
 		  await browser.close();
 	  }
 
@@ -43,8 +43,9 @@ cli
 			  options.output = 'screenshot-' + num + '.' + options.format;
 		  }
 	  }
-	  
-	  doScreenCapture(options.url, options.output);
+
+	  doScreenCapture(args.url, options.output).catch(e => { console.error(e); });
+	  // console.log(options.url);
   });
  
 cli.parse(process.argv);
